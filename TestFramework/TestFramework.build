@@ -1,0 +1,9 @@
+include ../Common.buildvars
+
+Assembly TestFramework
+Type static_lib
+
+BuildDirectory ../Build/$(Assembly)/$ModeStr
+IntermediateDirectory ../Intermediate/%_FileName
+
+Includes . .. ../Build
