@@ -1,0 +1,20 @@
+include ../Common.buildvars
+
+Assembly %_FileName
+Type app
+
+RunAssembly | ..
+
+BuildDirectory ../Build/$(Assembly)/$ModeStr
+IntermediateDirectory ../Intermediate/%_FileName
+
+Includes . ..
+
+if compiler == cl LinkerFlags /SUBSYSTEM:CONSOLE
+
+DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
+Libraries %_NativeLibs shcore Jolt $DxLibraries
+
+LibraryDirectories [
+    ../Build/Jolt/$ModeStr
+]
