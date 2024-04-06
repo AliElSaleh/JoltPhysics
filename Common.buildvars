@@ -1,0 +1,52 @@
+if cl Compiler cl else Compiler clang++
+
+if mode ModeStr %Mode else ModeStr Debug
+
+if _platform == windows Defines WIN32 _WINDOWS
+
+if modestr == debug Defines [
+    JPH_FLOATING_POINT_EXCEPTIONS_ENABLED
+    JPH_PROFILE_ENABLED
+    JPH_DEBUG_RENDERER
+]
+
+MaxCompilerErrors 1
+
+if compiler != cl goto clang_vars
+
+WarningFlags /Wall /WX
+CommonFlags /std:c++17 /arch:AVX2 /Gm- /GR- /EHsc /Zc:inline /Zc:__cplusplus /FC /FS /diagnostics:classic /Fd"$(BuildDirectory)\$(Assembly).pdb"
+
+LinkerFlags /MANIFEST
+if mode == debug LinkerFlags /INCREMENTAL /DEBUG
+
+if !mode           ConfigFlags /Od /Ob0 /Zi /MTd /RTC1 /GS /Gd
+if mode == debug   ConfigFlags /Od /Ob0 /Zi /MTd /RTC1 /GS /Gd
+if mode == release ConfigFlags /O2 /Oi /Ot /Zi /MT /GS- /Gy /Gd
+if mode == dist    ConfigFlags /O2 /Oi /Ot /Zi /MT /GS- /Gy /Gd
+
+if !mode           Defines _DEBUG
+if mode == debug   Defines _DEBUG
+if mode == release Defines NDEBUG
+if mode == dist    Defines NDEBUG
+
+FpModel /fp:precise /fp:except-
+
+goto end
+
+clang_vars:
+WarningFlags -Wall -Wextra -Werror
+CommonFlags -std=c++17 -march=x86-64-v3 -fexceptions -fcxx-exceptions -frtti
+
+FpModel -ffp-contract=off -ffp-model=precise
+
+if !mode           ConfigFlags -O0 -g -gcodeview -mshstk
+if mode == debug   ConfigFlags -O0 -g -gcodeview -mshstk
+if mode == release ConfigFlags -O3 -gcodeview
+if mode == dist    ConfigFlags -O3
+
+if _platform == windows LinkerFlags -Wl,-manifest
+if _platform == windows if mode == debug LinkerFlags -Wl,-incremental,-debug
+
+end:
+CompilerFlags $CommonFlags $WarningFlags $ConfigFlags $FpModel

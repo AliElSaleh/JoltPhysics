@@ -1,0 +1,26 @@
+include Common.buildvars
+
+Assembly Samples
+Type app
+
+RunAssembly | .
+
+SourceDirectory Samples
+BuildDirectory Build/Samples/$ModeStr
+IntermediateDirectory Intermediate/Samples
+
+Includes . Build Samples TestFramework
+
+if _platform == windows if compiler == cl LinkerFlags /SUBSYSTEM:WINDOWS
+if _platform == windows if compiler != cl LinkerFlags -Wl,-subsystem:windows
+
+DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
+Libraries %_NativeLibs shcore TestFramework Jolt $DxLibraries
+
+LibraryDirectories [
+    Build/Jolt/$ModeStr
+    Build/TestFramework/$ModeStr
+]
+
+Depends jolt Jolt | %_args
+Depends testframework TestFramework | %_args
