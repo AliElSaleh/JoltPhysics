@@ -28,4 +28,12 @@ Depends testframework TestFramework | %_args
 AssertPlatform Windows
 Platform.Linux.errormessage {
     Samples currently does not support %(_platform). It is a Windows only application
+
+    The targets that can be built on linux are:
+      - UnitTests.build
+      - HelloWorld.build
+    
+    You can run those inside their respective directories like so:
+      cd UnitTests && riftbuild
+      cd HelloWorld && riftbuild
 }
