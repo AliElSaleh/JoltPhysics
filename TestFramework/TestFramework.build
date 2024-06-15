@@ -7,3 +7,8 @@ BuildDirectory ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/%_FileName
 
 Includes . .. ../Build
+
+AssertPlatform Windows
+Platform.Linux.errormessage {
+    The TestFramework module is a windows only target
+}

@@ -20,3 +20,8 @@ LibraryDirectories [
 
 Depends jolt ../Jolt | %(%)
 Depends testframework ../TestFramework | %(%)
+
+AssertPlatform Windows
+Platform.Linux.errormessage {
+    JoltViewer currently does not support %(_platform). It is a Windows only application
+}

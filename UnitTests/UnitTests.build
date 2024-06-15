@@ -11,7 +11,9 @@ IntermediateDirectory ../Intermediate/%_FileName
 Includes . ..
 
 DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
-Libraries %_NativeLibs shcore Jolt $DxLibraries
+if _platform == windows Libraries %_NativeLibs shcore $DxLibraries
+
+Libraries Jolt
 
 LibraryDirectories [
     ../Build/Jolt/$ModeStr

@@ -24,3 +24,8 @@ LibraryDirectories [
 
 Depends jolt Jolt | %_args
 Depends testframework TestFramework | %_args
+
+AssertPlatform Windows
+Platform.Linux.errormessage {
+    Samples currently does not support %(_platform). It is a Windows only application
+}

@@ -3,7 +3,9 @@ include ../Common.buildvars
 Assembly Jolt
 Type static_lib
 
-BuildDirectory ../Build/$(Assembly)/$ModeStr
+BuildDirectory        ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/%_FileName
 
 Includes .. ../Build
+
+AssertWorkingDirectory .
