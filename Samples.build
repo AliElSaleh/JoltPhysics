@@ -1,31 +1,29 @@
 include Common.buildvars
 
 Assembly Samples
-Type app
-
 RunAssembly | .
 
-SourceDirectory Samples
-BuildDirectory Build/Samples/$ModeStr
-IntermediateDirectory Intermediate/Samples
+SourceDirectory           Samples
+BuildDirectory            Build/Samples/$ModeStr
+IntermediateDirectory     Intermediate/Samples
 
-Includes . Build Samples TestFramework
+if no_object_stream       ExcludedSourceFiles BigWorldTest.cpp KinematicRigTest.cpp LoadRigTest.cpp LoadSaveBinaryRigTest.cpp LoadSaveRigTest.cpp PoweredRigTest.cpp RigPileTest.cpp SkeletonMapperTest.cpp
 
-if _platform == windows if compiler == cl LinkerFlags /SUBSYSTEM:WINDOWS
-if _platform == windows if compiler != cl LinkerFlags -Wl,-subsystem:windows
+Includes                  . Build Samples TestFramework
 
-DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
-Libraries %_NativeLibs shcore TestFramework Jolt $DxLibraries
+if cl                     LinkerFlags /SUBSYSTEM:WINDOWS
+if !cl                    LinkerFlags -Wl,-subsystem:windows
 
-LibraryDirectories [
-    Build/Jolt/$ModeStr
-    Build/TestFramework/$ModeStr
-]
+Libraries                 %_NativeLibs shcore TestFramework Jolt $DxLibraries
+LibraryDirectories        Build/Jolt/$ModeStr Build/TestFramework/$ModeStr
 
-Depends jolt Jolt | %_args
+Depends jolt          Jolt          | %_args
 Depends testframework TestFramework | %_args
 
 AssertPlatform Windows
+AssertArchitecture x86 x64 arm arm64
+if x86   AssertCPUExtensions sse2
+if arm64 AssertCPUExtensions neon fp16
 Platform.Linux.errormessage {
     Samples currently does not support %(_platform). It is a Windows only application
 

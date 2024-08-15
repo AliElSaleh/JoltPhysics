@@ -1,22 +1,15 @@
 include ../Common.buildvars
 
-Assembly %_FileName
-Type app
-
+Assembly    %_FileName
 RunAssembly | ..
 
-BuildDirectory ../Build/$(Assembly)/$ModeStr
+BuildDirectory        ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/%_FileName
+Includes              . ..
 
-Includes . ..
+if windows            Libraries %_NativeLibs shcore $DxLibraries
 
-DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
-if _platform == windows Libraries %_NativeLibs shcore $DxLibraries
+Libraries             Jolt
+LibraryDirectories    ../Build/Jolt/$ModeStr
 
-Libraries Jolt
-
-LibraryDirectories [
-    ../Build/Jolt/$ModeStr
-]
-
-Depends jolt ../Jolt | %(%)
+Depends jolt ../Jolt | %_args

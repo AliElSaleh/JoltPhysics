@@ -1,24 +1,33 @@
 if cl Compiler cl else Compiler clang++
 
+# Compiler clang++ | >=17.0.0
+
 if mode ModeStr %Mode else ModeStr Debug
 
-if _platform == windows Defines WIN32 _WINDOWS
+if windows Defines WIN32 _WINDOWS
 
-if modestr == debug Defines [
+DebugDefines [
     JPH_FLOATING_POINT_EXCEPTIONS_ENABLED
     JPH_PROFILE_ENABLED
     JPH_DEBUG_RENDERER
 ]
 
-MaxCompilerErrors 1
+if !mode         Defines $DebugDefines
+if mode == debug Defines $DebugDefines
+
+if !no_object_stream Defines JPH_OBJECT_STREAM
+
+DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
 
 if compiler != cl goto clang_vars
 
+# MSVC Flags
+# --------------------------
 WarningFlags /Wall /WX
 CommonFlags /std:c++17 /arch:AVX2 /Gm- /GR- /EHsc /Zc:inline /Zc:__cplusplus /FC /FS /diagnostics:classic /Fd"$(BuildDirectory)\$(Assembly).pdb"
 
 LinkerFlags /MANIFEST
-if mode == debug LinkerFlags /INCREMENTAL /DEBUG
+if mode == debug   LinkerFlags /INCREMENTAL /DEBUG
 
 if !mode           ConfigFlags /Od /Ob0 /Zi /MTd /RTC1 /GS /Gd
 if mode == debug   ConfigFlags /Od /Ob0 /Zi /MTd /RTC1 /GS /Gd
@@ -31,10 +40,14 @@ if mode == release Defines NDEBUG
 if mode == dist    Defines NDEBUG
 
 FpModel /fp:precise /fp:except-
+# --------------------------
 
 goto end
 
 clang_vars:
+
+# Clang Flags
+# --------------------------
 WarningFlags -Wall -Wextra -Werror
 CommonFlags -std=c++17 -march=x86-64-v3 -fexceptions -fcxx-exceptions -frtti
 
@@ -45,8 +58,9 @@ if mode == debug   ConfigFlags -O0 -g -gcodeview -mshstk
 if mode == release ConfigFlags -O3 -gcodeview
 if mode == dist    ConfigFlags -O3
 
-if _platform == windows LinkerFlags -Wl,-manifest
-if _platform == windows if mode == debug LinkerFlags -Wl,-incremental,-debug
+if windows LinkerFlags -Wl,-manifest
+if windows if mode == debug LinkerFlags -Wl,-incremental,-debug
+# --------------------------
 
 end:
 CompilerFlags $CommonFlags $WarningFlags $ConfigFlags $FpModel
