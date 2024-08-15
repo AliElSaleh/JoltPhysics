@@ -1,26 +1,30 @@
 include ../Common.buildvars
 
-Assembly %_FileName
-Type app
+Assembly              %_FileName
+
+BuildDirectory        ../Build/$(Assembly)/$ModeStr
+IntermediateDirectory ../Intermediate/%_FileName
+Includes              . ..
+
+if cl                 LinkerFlags /SUBSYSTEM:CONSOLE
+
+Libraries             %_NativeLibs shcore $DxLibraries Jolt TestFramework
+LibraryDirectories    ../Build/Jolt/$ModeStr ../Build/TestFramework/$ModeStr
+
+Depends jolt          ../Jolt          | %_args
+Depends testframework ../TestFramework | %_args
 
 RunAssembly | ..
 
-BuildDirectory ../Build/$(Assembly)/$ModeStr
-IntermediateDirectory ../Intermediate/%_FileName
+AssertPlatform Windows
+Platform.Linux|Apple.ErrorMessage {
+    %_FileNameExt currently does not support %(_platform). It is a Windows only application
 
-Includes . ..
-
-if compiler == cl LinkerFlags /SUBSYSTEM:CONSOLE
-
-DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
-if _platform == windows Libraries %_NativeLibs shcore $DxLibraries
-
-Libraries Jolt TestFramework
-
-LibraryDirectories [
-    ../Build/Jolt/$ModeStr
-    ../Build/TestFramework/$ModeStr
-]
-
-Depends jolt ../Jolt | %(%)
-Depends testframework ../TestFramework | %(%)
+    The targets that can be built on %(_platform) are:
+      - UnitTests.build
+      - HelloWorld.build
+    
+    You can run those inside their respective directories like so:
+      cd ../UnitTests && riftbuild
+      cd ../HelloWorld && riftbuild
+}

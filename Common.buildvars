@@ -49,12 +49,16 @@ clang_vars:
 # Clang Flags
 # --------------------------
 WarningFlags -Wall -Wextra -Werror
-CommonFlags -std=c++17 -march=x86-64-v3 -fexceptions -fcxx-exceptions -frtti
+CommonFlags -std=c++17 -fexceptions -fcxx-exceptions -frtti
+if x64 CommonFlags -march=x86-64-v3
+if arm CommonFlags -march=native
 
 FpModel -ffp-contract=off -ffp-model=precise
 
-if !mode           ConfigFlags -O0 -g -gcodeview -mshstk
-if mode == debug   ConfigFlags -O0 -g -gcodeview -mshstk
+# -mshstk
+
+if !mode           ConfigFlags -O0 -g -gcodeview
+if mode == debug   ConfigFlags -O0 -g -gcodeview
 if mode == release ConfigFlags -O3 -gcodeview
 if mode == dist    ConfigFlags -O3
 
