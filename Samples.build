@@ -21,9 +21,6 @@ Depends jolt          Jolt          | %_args
 Depends testframework TestFramework | %_args
 
 AssertPlatform Windows
-AssertArchitecture x86 x64 arm arm64
-if x86   AssertCPUExtensions sse2
-if arm64 AssertCPUExtensions neon fp16
 Platform.Linux.errormessage {
     Samples currently does not support %(_platform). It is a Windows only application
 
