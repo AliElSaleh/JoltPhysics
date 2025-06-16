@@ -1,27 +1,27 @@
 include ../Common.buildvars
 
 Assembly %_FileName
-Type app
+.run | ..
 
-RunAssembly | ..
-
-BuildDirectory ../Build/$(Assembly)/$ModeStr
+BuildDirectory        ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/%_FileName
 
 Includes . .. ../TestFramework
 
 DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
-Libraries %_NativeLibs shcore TestFramework Jolt $DxLibraries
+Libraries %_NativeLibs TestFramework Jolt $DxLibraries
 
-LibraryDirectories [
+LibraryDirectories
+[
     ../Build/Jolt/$ModeStr
     ../Build/TestFramework/$ModeStr
 ]
 
-Depends jolt ../Jolt | %(%)
-Depends testframework ../TestFramework | %(%)
+Depends jolt          ../Jolt          | %_args
+Depends testframework ../TestFramework | %_args
 
-AssertPlatform Windows
-Platform.Linux.errormessage {
-    JoltViewer currently does not support %(_platform). It is a Windows only application
+Assert.Platform Windows
+Platform.*.errormessage
+{
+    JoltViewer currently does not support %(_platform). It is a Windows only application.
 }
