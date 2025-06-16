@@ -7,7 +7,7 @@ BuildDirectory        ../Build/$(Assembly)/%Mode
 IntermediateDirectory ../Intermediate/%_FileName
 Includes              . ..
 
-if windows            Libraries %_NativeLibs shcore $DxLibraries
+if windows            Libraries %_NativeLibs
 
 Libraries             Jolt
 Library.Paths         ../Build/Jolt/%Mode
