@@ -38,6 +38,9 @@ public:
 	/// Vector with all zeros
 	static JPH_INLINE Vec4		sZero();
 
+	/// Vector with all ones
+	static JPH_INLINE Vec4		sOne();
+
 	/// Vector with all NaN's
 	static JPH_INLINE Vec4		sNaN();
 
@@ -78,8 +81,8 @@ public:
 	/// Calculates inMul1 * inMul2 + inAdd
 	static JPH_INLINE Vec4		sFusedMultiplyAdd(Vec4Arg inMul1, Vec4Arg inMul2, Vec4Arg inAdd);
 
-	/// Component wise select, returns inV1 when highest bit of inControl = 0 and inV2 when highest bit of inControl = 1
-	static JPH_INLINE Vec4		sSelect(Vec4Arg inV1, Vec4Arg inV2, UVec4Arg inControl);
+	/// Component wise select, returns inNotSet when highest bit of inControl = 0 and inSet when highest bit of inControl = 1
+	static JPH_INLINE Vec4		sSelect(Vec4Arg inNotSet, Vec4Arg inSet, UVec4Arg inControl);
 
 	/// Logical or (component wise)
 	static JPH_INLINE Vec4		sOr(Vec4Arg inV1, Vec4Arg inV2);
@@ -136,6 +139,9 @@ public:
 	/// Test if two vectors are close
 	JPH_INLINE bool				IsClose(Vec4Arg inV2, float inMaxDistSq = 1.0e-12f) const;
 
+	/// Test if vector is near zero
+	JPH_INLINE bool				IsNearZero(float inMaxDistSq = 1.0e-12f) const;
+
 	/// Test if vector is normalized
 	JPH_INLINE bool				IsNormalized(float inTolerance = 1.0e-6f) const;
 
@@ -175,7 +181,7 @@ public:
 	/// Subtract two float vectors (component wise)
 	JPH_INLINE Vec4				operator - (Vec4Arg inV2) const;
 
-	/// Add two float vectors (component wise)
+	/// Subtract two float vectors (component wise)
 	JPH_INLINE Vec4 &			operator -= (Vec4Arg inV2);
 
 	/// Divide (component wise)
@@ -197,13 +203,25 @@ public:
 	/// Replicate the W component to all components
 	JPH_INLINE Vec4				SplatW() const;
 
+	/// Replicate the X component to all components
+	JPH_INLINE Vec3				SplatX3() const;
+
+	/// Replicate the Y component to all components
+	JPH_INLINE Vec3				SplatY3() const;
+
+	/// Replicate the Z component to all components
+	JPH_INLINE Vec3				SplatZ3() const;
+
+	/// Replicate the W component to all components
+	JPH_INLINE Vec3				SplatW3() const;
+
 	/// Return the absolute value of each of the components
 	JPH_INLINE Vec4				Abs() const;
 
 	/// Reciprocal vector (1 / value) for each of the components
 	JPH_INLINE Vec4				Reciprocal() const;
 
-	/// Dot product, returns the dot product in X, Y and Z components
+	/// Dot product, returns the dot product in X, Y, Z and W components
 	JPH_INLINE Vec4				DotV(Vec4Arg inV2) const;
 
 	/// Dot product
@@ -242,6 +260,10 @@ public:
 	/// Get vector that contains the sign of each element (returns 1.0f if positive, -1.0f if negative)
 	JPH_INLINE Vec4				GetSign() const;
 
+	/// Flips the signs of the components, e.g. FlipSign<-1, 1, -1, 1>() will flip the signs of the X and Z components
+	template <int X, int Y, int Z, int W>
+	JPH_INLINE Vec4				FlipSign() const;
+
 	/// Calculate the sine and cosine for each element of this vector (input in radians)
 	inline void					SinCos(Vec4 &outSin, Vec4 &outCos) const;
 
@@ -276,7 +298,7 @@ public:
 	};
 };
 
-static_assert(is_trivial<Vec4>(), "Is supposed to be a trivial type!");
+static_assert(std::is_trivial<Vec4>(), "Is supposed to be a trivial type!");
 
 JPH_NAMESPACE_END
 

@@ -63,9 +63,9 @@ enum class EConstraintSpace
 /// Class used to store the configuration of a constraint. Allows run-time creation of constraints.
 class JPH_EXPORT ConstraintSettings : public SerializableObject, public RefTarget<ConstraintSettings>
 {
-public:
 	JPH_DECLARE_SERIALIZABLE_VIRTUAL(JPH_EXPORT, ConstraintSettings)
 
+public:
 	using ConstraintResult = Result<Ref<ConstraintSettings>>;
 
 	/// Saves the contents of the constraint settings in binary form to inStream.
@@ -94,6 +94,11 @@ public:
 	uint64						mUserData = 0;
 
 protected:
+	/// Don't allow (copy) constructing this base class, but allow derived classes to (copy) construct themselves
+								ConstraintSettings() = default;
+								ConstraintSettings(const ConstraintSettings &) = default;
+	ConstraintSettings &		operator = (const ConstraintSettings &) = default;
+
 	/// This function should not be called directly, it is used by sRestoreFromBinaryState.
 	virtual void				RestoreBinaryState(StreamIn &inStream);
 };
