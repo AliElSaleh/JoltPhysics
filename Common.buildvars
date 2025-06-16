@@ -2,7 +2,7 @@ default.options mode=debug
 option.mode(debug release dist)
 {
     assert
-    description Select which configuration mode to build hazel in
+    description Select which configuration mode to build Jolt in
 }
 
 if windows Compiler cl else Compiler clang++
@@ -42,7 +42,7 @@ else
     if x64 CommonFlags -march=x86-64-v3
     if arm CommonFlags -march=native
 
-    if mode == debug   ConfigFlags -O0 -g -gcodeview -mshstk
+    if mode == debug   ConfigFlags -O0 -g -gcodeview #-mshstk
     if mode == release ConfigFlags -O3 -gcodeview
     if mode == dist    ConfigFlags -O3
 

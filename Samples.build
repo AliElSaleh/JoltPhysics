@@ -33,7 +33,7 @@ Depends Jolt           Jolt          | %_args
 Depends TestFramework  TestFramework | %_args
 
 Assert.Platform Windows
-Platform.Linux.errormessage
+Platform.*.errormessage
 {
     Samples currently does not support %(_platform). It is a Windows only application.
 
