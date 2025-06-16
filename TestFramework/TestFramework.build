@@ -1,14 +1,15 @@
 include ../Common.buildvars
 
-Assembly TestFramework
-Type static_lib
+Assembly %_FileName
+Type     static_lib
 
-BuildDirectory ../Build/$(Assembly)/$ModeStr
-IntermediateDirectory ../Intermediate/%_FileName
+BuildDirectory        ../Build/$(Assembly)/$ModeStr
+IntermediateDirectory ../Intermediate/$Assembly
 
 Includes . .. ../Build
 
-AssertPlatform Windows
-Platform.Linux.errormessage {
+Assert.Platform Windows
+Platform.Linux.errormessage
+{
     The TestFramework module is a windows only target
 }

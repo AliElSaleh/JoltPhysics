@@ -1,14 +1,15 @@
 include ../Common.buildvars
 
-Assembly Jolt
-Type     static_lib
+Assembly               %_FileName
+Type                   static_lib
 
-BuildDirectory         ../Build/$(Assembly)/$ModeStr
-IntermediateDirectory  ../Intermediate/%_FileName
+BuildDirectory         ../Build/$(Assembly)/%Mode
+IntermediateDirectory  ../Intermediate/$Assembly
 
 Includes               .. ../Build
 
-AssertWorkingDirectory .
-AssertArchitecture x86 x64 arm arm64
-if x86   AssertCPUExtensions sse2
-if arm64 AssertCPUExtensions neon fp16
+Assert.WorkingDirectory .
+Assert.Architecture x86 x64 arm arm64
+
+if x86   Assert.CPUExtensions sse2
+if arm64 Assert.CPUExtensions neon fp16

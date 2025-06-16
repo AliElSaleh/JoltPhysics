@@ -1,28 +1,41 @@
 include Common.buildvars
 
-Assembly Samples
-RunAssembly | .
+Assembly %_FileName
+.run | .
 
 SourceDirectory           Samples
-BuildDirectory            Build/Samples/$ModeStr
+BuildDirectory            Build/Samples/%Mode
 IntermediateDirectory     Intermediate/Samples
 
-if no_object_stream       ExcludedSourceFiles BigWorldTest.cpp KinematicRigTest.cpp LoadRigTest.cpp LoadSaveBinaryRigTest.cpp LoadSaveRigTest.cpp PoweredRigTest.cpp RigPileTest.cpp SkeletonMapperTest.cpp
+Linker.Subsystem Windows
+
+if no_object_stream SourceFiles.Exclude
+[
+    BigWorldTest.cpp
+    KinematicRigTest.cpp
+    LoadRigTest.cpp
+    LoadSaveBinaryRigTest.cpp
+    LoadSaveRigTest.cpp
+    PoweredRigTest.cpp
+    RigPileTest.cpp
+    SkeletonMapperTest.cpp
+]
 
 Includes                  . Build Samples TestFramework
 
-if cl                     LinkerFlags /SUBSYSTEM:WINDOWS
-if !cl                    LinkerFlags -Wl,-subsystem:windows
+DxLibraries               D3D12 DXGI d3dcompiler dxguid dinput8
+Libraries                 %_NativeLibs TestFramework Jolt $DxLibraries
+Library.Paths             Build/Jolt/%Mode Build/TestFramework/%Mode
 
-Libraries                 %_NativeLibs shcore TestFramework Jolt $DxLibraries
-LibraryDirectories        Build/Jolt/$ModeStr Build/TestFramework/$ModeStr
+if mode == debug Libraries msvcrtd
 
-Depends jolt          Jolt          | %_args
-Depends testframework TestFramework | %_args
+Depends Jolt           Jolt          | %_args
+Depends TestFramework  TestFramework | %_args
 
-AssertPlatform Windows
-Platform.Linux.errormessage {
-    Samples currently does not support %(_platform). It is a Windows only application
+Assert.Platform Windows
+Platform.Linux.errormessage
+{
+    Samples currently does not support %(_platform). It is a Windows only application.
 
     The targets that can be built on linux are:
       - UnitTests.build

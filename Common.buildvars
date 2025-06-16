@@ -1,70 +1,64 @@
-if cl Compiler cl else Compiler clang++
+default.options mode=debug
+option.mode(debug release dist)
+{
+    assert
+    description Select which configuration mode to build hazel in
+}
 
-# Compiler clang++ | >=17.0.0
-
-if mode ModeStr %Mode else ModeStr Debug
+if windows Compiler cl else Compiler clang++
 
 if windows Defines WIN32 _WINDOWS
 
-DebugDefines [
+if !no_object_stream Defines JPH_OBJECT_STREAM
+
+if mode == debug Defines
+[
     JPH_FLOATING_POINT_EXCEPTIONS_ENABLED
     JPH_PROFILE_ENABLED
     JPH_DEBUG_RENDERER
 ]
 
-if !mode         Defines $DebugDefines
-if mode == debug Defines $DebugDefines
+if compiler == cl
+{
+    WarningFlags /Wall /WX /Wv:18 /wd4514 /wd4365
+    CommonFlags /std:c++17 /arch:AVX2 /Gm- /GR- /EHsc /Zc:inline /Zc:__cplusplus /FC /FS /diagnostics:classic /Fd"$BuildDirectory\$(Assembly).pdb"
 
-if !no_object_stream Defines JPH_OBJECT_STREAM
+    FpModel /fp:precise /fp:except-
 
-DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
+    if mode == debug   ConfigFlags /Od /ZI /MTd /RTC1
+    if mode == release ConfigFlags /O2 /Oi /Ot /MT /GS- /Gy /Gd
+    if mode == dist    ConfigFlags /O2 /Oi /Ot /MT /GS- /Gy /Gd
 
-if compiler != cl goto clang_vars
+    if mode == debug   Defines _DEBUG
+    if mode != debug   Defines NDEBUG
+}
+else
+{
+    WarningFlags -Wall -Wextra -Werror
+    CommonFlags -std=c++17 -fexceptions -fcxx-exceptions -frtti
 
-# MSVC Flags
-# --------------------------
-WarningFlags /Wall /WX
-CommonFlags /std:c++17 /arch:AVX2 /Gm- /GR- /EHsc /Zc:inline /Zc:__cplusplus /FC /FS /diagnostics:classic /Fd"$(BuildDirectory)\$(Assembly).pdb"
+    FpModel -ffp-contract=off -ffp-model=precise
 
-LinkerFlags /MANIFEST
-if mode == debug   LinkerFlags /INCREMENTAL /DEBUG
+    if x64 CommonFlags -march=x86-64-v3
+    if arm CommonFlags -march=native
 
-if !mode           ConfigFlags /Od /Ob0 /Zi /MTd /RTC1 /GS /Gd
-if mode == debug   ConfigFlags /Od /Ob0 /Zi /MTd /RTC1 /GS /Gd
-if mode == release ConfigFlags /O2 /Oi /Ot /Zi /MT /GS- /Gy /Gd
-if mode == dist    ConfigFlags /O2 /Oi /Ot /Zi /MT /GS- /Gy /Gd
+    if mode == debug   ConfigFlags -O0 -g -gcodeview -mshstk
+    if mode == release ConfigFlags -O3 -gcodeview
+    if mode == dist    ConfigFlags -O3
 
-if !mode           Defines _DEBUG
-if mode == debug   Defines _DEBUG
-if mode == release Defines NDEBUG
-if mode == dist    Defines NDEBUG
+    if mode == debug   Defines _DEBUG
+    if mode != debug   Defines NDEBUG
+    Defines _MT
+    
+    if windows
+    {
+        Linker.Flags -Wl,-manifest
 
-FpModel /fp:precise /fp:except-
-# --------------------------
+        if mode == debug
+        {
+            Linker.Flags -Wl,-incremental,-debug
+        }
+    }
+}
 
-goto end
-
-clang_vars:
-
-# Clang Flags
-# --------------------------
-WarningFlags -Wall -Wextra -Werror
-CommonFlags -std=c++17 -fexceptions -fcxx-exceptions -frtti
-if x64 CommonFlags -march=x86-64-v3
-if arm CommonFlags -march=native
-
-FpModel -ffp-contract=off -ffp-model=precise
-
-# -mshstk
-
-if !mode           ConfigFlags -O0 -g -gcodeview
-if mode == debug   ConfigFlags -O0 -g -gcodeview
-if mode == release ConfigFlags -O3 -gcodeview
-if mode == dist    ConfigFlags -O3
-
-if windows LinkerFlags -Wl,-manifest
-if windows if mode == debug LinkerFlags -Wl,-incremental,-debug
-# --------------------------
-
-end:
-CompilerFlags $CommonFlags $WarningFlags $ConfigFlags $FpModel
+Compiler.Flags $CommonFlags $WarningFlags $ConfigFlags $FpModel
