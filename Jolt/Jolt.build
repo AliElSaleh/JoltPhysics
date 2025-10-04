@@ -1,15 +1,15 @@
 include ../Common.buildvars
 
-Assembly               %_FileName
-Type                   static_lib
+Assembly                %_FileName
+Type                    static_lib
 
-BuildDirectory         ../Build/$(Assembly)/%Mode
-IntermediateDirectory  ../Intermediate/$Assembly
+BuildDirectory          ../Build/$(Assembly)/%Mode
+IntermediateDirectory   ../Intermediate/$Assembly
 
-Includes               .. ../Build
+Includes                .. ../Build
 
 Assert.WorkingDirectory .
-Assert.Architecture x86 x64 arm arm64
+Assert.Architecture     x86 x64 arm arm64
 
 if x86   Assert.CPUExtensions sse2
 if arm64 Assert.CPUExtensions neon fp16

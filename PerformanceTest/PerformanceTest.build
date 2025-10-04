@@ -9,11 +9,10 @@ Includes              . ..
 Linker.Subsystem console
 
 DxLibraries           D3D12 DXGI d3dcompiler dxguid dinput8
-Libraries             %_NativeLibs $DxLibraries Jolt TestFramework
-Library.Paths        ../Build/Jolt/%Mode ../Build/TestFramework/%Mode
+Libraries             %_NativeLibs $DxLibraries
 
-Depends jolt          ../Jolt          | %_args
-Depends testframework ../TestFramework | %_args
+Depends ../Jolt          | %_args
+Depends ../TestFramework | %_args
 
 .run | ..
 

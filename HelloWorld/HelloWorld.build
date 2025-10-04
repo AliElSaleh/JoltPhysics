@@ -7,8 +7,6 @@ BuildDirectory        ../Build/$(Assembly)/%Mode
 IntermediateDirectory ../Intermediate/%_FileName
 Includes              . ..
 
-if cl                 Linker.Flags /SUBSYSTEM:CONSOLE
+Linker.Subsystem      console
 
-if windows            Libraries %_NativeLibs shcore $DxLibraries
-Libraries             Jolt
-Library.Paths         ../Build/Jolt/%Mode
+Depends ../Jolt

@@ -1,13 +1,15 @@
-default.options mode=debug
-option.mode(debug release dist)
+option.mode(debug release dist) Select which configuration mode to build Jolt in
+option.mode.assert
+
+if windows
 {
-    assert
-    description Select which configuration mode to build Jolt in
+    Compiler cl
+    Defines WIN32 _WINDOWS
 }
-
-if windows Compiler cl else Compiler clang++
-
-if windows Defines WIN32 _WINDOWS
+else
+{
+    Compiler clang++
+}
 
 if !no_object_stream Defines JPH_OBJECT_STREAM
 
@@ -18,7 +20,7 @@ if mode == debug Defines
     JPH_DEBUG_RENDERER
 ]
 
-if compiler == cl
+if cl
 {
     WarningFlags /Wall /WX /Wv:18 /wd4514 /wd4365
     CommonFlags /std:c++17 /arch:AVX2 /Gm- /GR- /EHsc /Zc:inline /Zc:__cplusplus /FC /FS /diagnostics:classic /Fd"$BuildDirectory\$(Assembly).pdb"

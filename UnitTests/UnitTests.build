@@ -1,7 +1,7 @@
 include ../Common.buildvars
 
-Assembly    %_FileName
-.run | ..
+Assembly %_FileName
+.run     | ..
 
 BuildDirectory        ../Build/$(Assembly)/%Mode
 IntermediateDirectory ../Intermediate/%_FileName
@@ -9,7 +9,4 @@ Includes              . ..
 
 if windows            Libraries %_NativeLibs
 
-Libraries             Jolt
-Library.Paths         ../Build/Jolt/%Mode
-
-Depends jolt ../Jolt | %_args
+Depends ../Jolt | %_args
