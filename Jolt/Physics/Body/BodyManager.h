@@ -117,7 +117,7 @@ public:
 	const BodyID *					GetActiveBodiesUnsafe(EBodyType inType) const { return mActiveBodies[int(inType)]; }
 
 	/// Get the number of active bodies.
-	uint32							GetNumActiveBodies(EBodyType inType) const	{ return mNumActiveBodies[int(inType)]; }
+	uint32							GetNumActiveBodies(EBodyType inType) const	{ return mNumActiveBodies[int(inType)].load(memory_order_acquire); }
 
 	/// Get the number of active bodies that are using continuous collision detection
 	uint32							GetNumActiveCCDBodies() const				{ return mNumActiveCCDBodies; }
@@ -248,6 +248,9 @@ public:
 		bool						mDrawSoftBodyVolumeConstraints = false;			///< Draw the volume constraints of soft bodies
 		bool						mDrawSoftBodySkinConstraints = false;			///< Draw the skin constraints of soft bodies
 		bool						mDrawSoftBodyLRAConstraints = false;			///< Draw the LRA constraints of soft bodies
+		bool						mDrawSoftBodyRods = false;						///< Draw the rods of soft bodies
+		bool						mDrawSoftBodyRodStates = false;					///< Draw the rod states (orientation and angular velocity) of soft bodies
+		bool						mDrawSoftBodyRodBendTwistConstraints = false;	///< Draw the rod bend twist constraints of soft bodies
 		bool						mDrawSoftBodyPredictedBounds = false;			///< Draw the predicted bounds of soft bodies
 		ESoftBodyConstraintColor	mDrawSoftBodyConstraintColor = ESoftBodyConstraintColor::ConstraintType; ///< Coloring scheme to use for soft body constraints
 	};
