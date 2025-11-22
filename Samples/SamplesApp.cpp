@@ -286,6 +286,7 @@ JPH_DECLARE_RTTI_FOR_FACTORY(JPH_NO_EXPORT, CreateRigTest)
 #ifdef JPH_OBJECT_STREAM
 JPH_DECLARE_RTTI_FOR_FACTORY(JPH_NO_EXPORT, LoadRigTest)
 JPH_DECLARE_RTTI_FOR_FACTORY(JPH_NO_EXPORT, KinematicRigTest)
+JPH_DECLARE_RTTI_FOR_FACTORY(JPH_NO_EXPORT, SoftKeyframedRigTest)
 JPH_DECLARE_RTTI_FOR_FACTORY(JPH_NO_EXPORT, PoweredRigTest)
 JPH_DECLARE_RTTI_FOR_FACTORY(JPH_NO_EXPORT, RigPileTest)
 JPH_DECLARE_RTTI_FOR_FACTORY(JPH_NO_EXPORT, LoadSaveRigTest)
@@ -302,6 +303,7 @@ static TestNameAndRTTI sRigTests[] =
 	{ "Load / Save Rig",					JPH_RTTI(LoadSaveRigTest) },
 	{ "Load / Save Binary Rig",				JPH_RTTI(LoadSaveBinaryRigTest) },
 	{ "Kinematic Rig",						JPH_RTTI(KinematicRigTest) },
+	{ "Soft Keyframed Rig",					JPH_RTTI(SoftKeyframedRigTest) },
 	{ "Powered Rig",						JPH_RTTI(PoweredRigTest) },
 	{ "Skeleton Mapper",					JPH_RTTI(SkeletonMapperTest) },
 	{ "Rig Pile",							JPH_RTTI(RigPileTest) },
@@ -546,7 +548,7 @@ SamplesApp::SamplesApp(const String &inCommandLine) :
 			mDebugUI->CreateCheckBox(drawing_options, "Draw Contact Manifolds (M)", ContactConstraintManager::sDrawContactManifolds, [](UICheckBox::EState inState) { ContactConstraintManager::sDrawContactManifolds = inState == UICheckBox::STATE_CHECKED; });
 			mDebugUI->CreateCheckBox(drawing_options, "Draw Motion Quality Linear Cast", PhysicsSystem::sDrawMotionQualityLinearCast, [](UICheckBox::EState inState) { PhysicsSystem::sDrawMotionQualityLinearCast = inState == UICheckBox::STATE_CHECKED; });
 			mDebugUI->CreateCheckBox(drawing_options, "Draw Bounding Boxes", mBodyDrawSettings.mDrawBoundingBox, [this](UICheckBox::EState inState) { mBodyDrawSettings.mDrawBoundingBox = inState == UICheckBox::STATE_CHECKED; });
-			mDebugUI->CreateCheckBox(drawing_options, "Draw Physics System Bounds", mDrawPhysicsSystemBounds, [this](UICheckBox::EState inState) { mDrawPhysicsSystemBounds = inState == UICheckBox::STATE_CHECKED; });
+			mDebugUI->CreateCheckBox(drawing_options, "Draw Broadphase Bounds", mDrawBroadPhaseBounds, [this](UICheckBox::EState inState) { mDrawBroadPhaseBounds = inState == UICheckBox::STATE_CHECKED; });
 			mDebugUI->CreateCheckBox(drawing_options, "Draw Center of Mass Transforms", mBodyDrawSettings.mDrawCenterOfMassTransform, [this](UICheckBox::EState inState) { mBodyDrawSettings.mDrawCenterOfMassTransform = inState == UICheckBox::STATE_CHECKED; });
 			mDebugUI->CreateCheckBox(drawing_options, "Draw World Transforms", mBodyDrawSettings.mDrawWorldTransform, [this](UICheckBox::EState inState) { mBodyDrawSettings.mDrawWorldTransform = inState == UICheckBox::STATE_CHECKED; });
 			mDebugUI->CreateCheckBox(drawing_options, "Draw Velocity", mBodyDrawSettings.mDrawVelocity, [this](UICheckBox::EState inState) { mBodyDrawSettings.mDrawVelocity = inState == UICheckBox::STATE_CHECKED; });
@@ -2168,6 +2170,12 @@ bool SamplesApp::UpdateFrame(float inDeltaTime)
 				mPlaybackMode = shift? EPlaybackMode::FastForward : EPlaybackMode::StepForward;
 			}
 			break;
+
+	#if defined(JPH_TRACK_SIMULATION_STATS) && defined(JPH_PROFILE_ENABLED)
+		case EKey::Y:
+			mPhysicsSystem->ReportSimulationStats();
+			break;
+	#endif
 		}
 
 	// Stop recording if record state is turned off
@@ -2357,8 +2365,8 @@ void SamplesApp::DrawPhysics()
 	if (mDrawConstraintReferenceFrame)
 		mPhysicsSystem->DrawConstraintReferenceFrame(mDebugRenderer);
 
-	if (mDrawPhysicsSystemBounds)
-		mDebugRenderer->DrawWireBox(mPhysicsSystem->GetBounds(), Color::sGreen);
+	if (mDrawBroadPhaseBounds)
+		mDebugRenderer->DrawWireBox(mPhysicsSystem->GetBroadPhaseQuery().GetBounds(), Color::sGreen);
 #endif // JPH_DEBUG_RENDERER
 
 	mTest->DrawBodyLabels();
