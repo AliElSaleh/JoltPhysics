@@ -1,12 +1,12 @@
 option.mode(debug release dist) Select which configuration mode to build Jolt in
-option.mode.assert
 
 if windows
 {
     Compiler cl
     Defines WIN32 _WINDOWS
 }
-else
+
+if unix
 {
     Compiler clang++
 }
@@ -34,7 +34,8 @@ if cl
     if mode == debug   Defines _DEBUG
     if mode != debug   Defines NDEBUG
 }
-else
+
+if clang++
 {
     WarningFlags -Wall -Wextra -Werror
     CommonFlags -std=c++17

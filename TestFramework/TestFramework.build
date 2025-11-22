@@ -8,6 +8,9 @@ IntermediateDirectory ../Intermediate/$Assembly
 
 Includes              . .. ../Build
 
+if windows option.renderer(dx12 vulkan)
+if unix    option.renderer(vulkan)
+
 SourceFiles
 [
     Application/Application.cpp
@@ -168,7 +171,7 @@ if renderer == vulkan
     Includes                  @VULKAN_SDK/include
     Defines                   JPH_ENABLE_VULKAN
     Libraries.Public:windows  vulkan-1
-    Libraries.Public:!windows vulkan
+    Libraries.Public:unix     vulkan
     Library.Paths.Public      @VULKAN_SDK/lib
 
     SourceFiles
@@ -200,6 +203,4 @@ if renderer == vulkan
 }
 
 
-if windows  option.renderer(dx12 vulkan)
-if !windows option.renderer(vulkan)
 
