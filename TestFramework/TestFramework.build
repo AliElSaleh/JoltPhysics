@@ -7,9 +7,14 @@ BuildDirectory        ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/$Assembly
 
 Includes              . .. ../Build @VULKAN_SDK/include
-Defines               JPH_ENABLE_VULKAN
-Libraries.Public      vulkan
-Library.Paths.Public  @VULKAN_SDK/lib
+
+if renderer == vulkan
+{
+    Defines                   JPH_ENABLE_VULKAN
+    Libraries.Public:windows  vulkan-1
+    Libraries.Public:!windows vulkan
+    Library.Paths.Public      @VULKAN_SDK/lib
+}
 
 SourceFiles
 [
@@ -189,5 +194,11 @@ SourceFiles
 
 
 Assert.EnvVar VULKAN_SDK
-EnvVar.VULKAN_SDK.ErrorMessage You do not have the Vulkan SDK installed on this machine. Install the latest version by visiting https://vulkan.lunarg.com/sdk/home
+EnvVar.VULKAN_SDK.ErrorMessage
+{
+    You do not have the Vulkan SDK installed on this machine. Install the latest version by visiting https://vulkan.lunarg.com/sdk/home
+}
+
+if windows  option.renderer(dx12 vulkan)
+if !windows option.renderer(vulkan)
 
