@@ -23,7 +23,7 @@ if mode == debug Defines
 if cl
 {
     WarningFlags /Wall /WX /Wv:18 /wd4514 /wd4365
-    CommonFlags /std:c++17 /arch:AVX2 /Gm- /GR- /EHsc /Zc:inline /Zc:__cplusplus /FC /FS /diagnostics:classic /Fd"$BuildDirectory\$(Assembly).pdb"
+    CommonFlags /std:c++17 /arch:AVX2 /Zc:inline /Zc:__cplusplus /FC /FS /diagnostics:classic /Fd"$BuildDirectory\$(Assembly).pdb"
 
     FpModel /fp:precise /fp:except-
 
@@ -37,12 +37,9 @@ if cl
 else
 {
     WarningFlags -Wall -Wextra -Werror
-    CommonFlags -std=c++17 -fexceptions -fcxx-exceptions -frtti
+    CommonFlags -std=c++17
 
     FpModel -ffp-contract=off -ffp-model=precise
-
-    if apple CommonFlags -stdlib=libc++
-    if apple CommonLinkerFlags -lc++
 
     if x64   CommonFlags -march=x86-64-v3
     if arm64 CommonFlags -arch arm64

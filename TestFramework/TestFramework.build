@@ -6,7 +6,10 @@ Type                  static_lib
 BuildDirectory        ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/$Assembly
 
-Includes              . .. ../Build @(VULKAN_SDK)/include
+Includes              . .. ../Build @VULKAN_SDK/include
+Defines               JPH_ENABLE_VULKAN
+Libraries.Public      vulkan
+Library.Paths.Public  @VULKAN_SDK/lib
 
 SourceFiles
 [

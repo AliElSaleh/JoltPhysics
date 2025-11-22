@@ -7,7 +7,7 @@ SourceDirectory           Samples
 BuildDirectory            Build/Samples/%Mode
 IntermediateDirectory     Intermediate/Samples
 
-Linker.Subsystem Windows
+if windows Linker.Subsystem Windows
 
 if no_object_stream SourceFiles.Exclude
 [
@@ -21,39 +21,26 @@ if no_object_stream SourceFiles.Exclude
     SkeletonMapperTest.cpp
 ]
 
-Includes                  . Build Samples TestFramework
+Includes               . Build Samples TestFramework
 
-DxLibraries:windows       D3D12 DXGI d3dcompiler dxguid dinput8
-Libraries                 %_NativeLibs $DxLibraries
+Libraries              %_NativeLibs
+Libraries:windows      D3D12 DXGI d3dcompiler dxguid dinput8
+Libraries:linux        X11 Xrandr Xinerama Xcursor Xxf86vm Xext Xrender Xi
+
 Linker.Flags:apple
 [
     -framework Foundation
-    -framework AppKit
     -framework Cocoa
     -framework GameController
     -framework Metal
     -framework MetalKit
-    -framework MetalPerformanceShaders
 ]
 
 # TODO
-# Frameworks                Foundation AppKit Cocoa GameController Metal MetalKit MetalPerformanceShaders
+# Frameworks                Foundation Cocoa GameController Metal MetalKit
 
 if windows if mode == debug Libraries msvcrtd
 
-Depends Jolt/          | %_args
 Depends TestFramework/ | %_args
+Depends Jolt/          | %_args
 
-#Assert.Platform Windows
-Platform.*.errormessage
-{
-    Samples currently does not support %(_platform). It is a Windows only application.
-
-    The targets that can be built on linux are:
-      - UnitTests.build
-      - HelloWorld.build
-    
-    You can run those inside their respective directories like so:
-      cd UnitTests && riftbuild
-      cd HelloWorld && riftbuild
-}
