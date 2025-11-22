@@ -6,15 +6,7 @@ Type                  static_lib
 BuildDirectory        ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/$Assembly
 
-Includes              . .. ../Build @VULKAN_SDK/include
-
-if renderer == vulkan
-{
-    Defines                   JPH_ENABLE_VULKAN
-    Libraries.Public:windows  vulkan-1
-    Libraries.Public:!windows vulkan
-    Library.Paths.Public      @VULKAN_SDK/lib
-}
+Includes              . .. ../Build
 
 SourceFiles
 [
@@ -171,33 +163,42 @@ if macOS
 }
 
 # Vulkan source files
-SourceFiles
-[
-    Renderer/VK/BufferVK.h
-    Renderer/VK/ConstantBufferVK.cpp
-    Renderer/VK/ConstantBufferVK.h
-    Renderer/VK/FatalErrorIfFailedVK.cpp
-    Renderer/VK/FatalErrorIfFailedVK.h
-    Renderer/VK/PipelineStateVK.cpp
-    Renderer/VK/PipelineStateVK.h
-    Renderer/VK/PixelShaderVK.h
-    Renderer/VK/RendererVK.cpp
-    Renderer/VK/RendererVK.h
-    Renderer/VK/RenderInstancesVK.cpp
-    Renderer/VK/RenderInstancesVK.h
-    Renderer/VK/RenderPrimitiveVK.cpp
-    Renderer/VK/RenderPrimitiveVK.h
-    Renderer/VK/TextureVK.cpp
-    Renderer/VK/TextureVK.h
-    Renderer/VK/VertexShaderVK.h
-]
-
-
-Assert.EnvVar VULKAN_SDK
-EnvVar.VULKAN_SDK.ErrorMessage
+if renderer == vulkan
 {
-    You do not have the Vulkan SDK installed on this machine. Install the latest version by visiting https://vulkan.lunarg.com/sdk/home
+    Includes                  @VULKAN_SDK/include
+    Defines                   JPH_ENABLE_VULKAN
+    Libraries.Public:windows  vulkan-1
+    Libraries.Public:!windows vulkan
+    Library.Paths.Public      @VULKAN_SDK/lib
+
+    SourceFiles
+    [
+        Renderer/VK/BufferVK.h
+        Renderer/VK/ConstantBufferVK.cpp
+        Renderer/VK/ConstantBufferVK.h
+        Renderer/VK/FatalErrorIfFailedVK.cpp
+        Renderer/VK/FatalErrorIfFailedVK.h
+        Renderer/VK/PipelineStateVK.cpp
+        Renderer/VK/PipelineStateVK.h
+        Renderer/VK/PixelShaderVK.h
+        Renderer/VK/RendererVK.cpp
+        Renderer/VK/RendererVK.h
+        Renderer/VK/RenderInstancesVK.cpp
+        Renderer/VK/RenderInstancesVK.h
+        Renderer/VK/RenderPrimitiveVK.cpp
+        Renderer/VK/RenderPrimitiveVK.h
+        Renderer/VK/TextureVK.cpp
+        Renderer/VK/TextureVK.h
+        Renderer/VK/VertexShaderVK.h
+    ]
+
+    Assert.EnvVar VULKAN_SDK
+    EnvVar.VULKAN_SDK.ErrorMessage
+    {
+        You do not have the Vulkan SDK installed on this machine. Install the latest version by visiting https://vulkan.lunarg.com/sdk/home
+    }
 }
+
 
 if windows  option.renderer(dx12 vulkan)
 if !windows option.renderer(vulkan)
