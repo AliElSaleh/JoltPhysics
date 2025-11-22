@@ -6,11 +6,7 @@ Type                  static_lib
 BuildDirectory        ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/$Assembly
 
-Includes              . .. ../Build @(VK_SDK_PATH)/include
-
-SourceDirectories.Exclude:windows Input/Linux Input/MacOS
-SourceDirectories.Exclude:linux   Input/Win Input/MacOS
-SourceDirectories.Exclude:macos   Input/Win Input/Linux
+Includes              . .. ../Build @(VULKAN_SDK)/include
 
 SourceFiles
 [
@@ -189,8 +185,6 @@ SourceFiles
 ]
 
 
-Assert.Platform Windows
-Platform.*.ErrorMessage
-{
-    The TestFramework module is a windows only target
-}
+Assert.EnvVar VULKAN_SDK
+EnvVar.VULKAN_SDK.ErrorMessage You do not have the Vulkan SDK installed on this machine. Install the latest version by visiting https://vulkan.lunarg.com/sdk/home
+

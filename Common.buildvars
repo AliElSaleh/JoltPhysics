@@ -41,8 +41,11 @@ else
 
     FpModel -ffp-contract=off -ffp-model=precise
 
-    if x64 CommonFlags -march=x86-64-v3
-    if arm CommonFlags -march=native
+    if apple CommonFlags -stdlib=libc++
+    if apple CommonLinkerFlags -lc++
+
+    if x64   CommonFlags -march=x86-64-v3
+    if arm64 CommonFlags -arch arm64
 
     if mode == debug   ConfigFlags -O0 -g -gcodeview #-mshstk
     if mode == release ConfigFlags -O3 -gcodeview
@@ -63,4 +66,5 @@ else
     }
 }
 
-Compiler.Flags $CommonFlags $WarningFlags $ConfigFlags $FpModel
+Compiler.Flags $CommonFlags $WarningFlags $ConfigFlags $FpModel $AppleFlags
+Linker.Flags   $CommonLinkerFlags

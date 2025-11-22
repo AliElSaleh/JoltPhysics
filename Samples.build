@@ -23,15 +23,28 @@ if no_object_stream SourceFiles.Exclude
 
 Includes                  . Build Samples TestFramework
 
-DxLibraries               D3D12 DXGI d3dcompiler dxguid dinput8
+DxLibraries:windows       D3D12 DXGI d3dcompiler dxguid dinput8
 Libraries                 %_NativeLibs $DxLibraries
+Linker.Flags:apple
+[
+    -framework Foundation
+    -framework AppKit
+    -framework Cocoa
+    -framework GameController
+    -framework Metal
+    -framework MetalKit
+    -framework MetalPerformanceShaders
+]
 
-if mode == debug Libraries msvcrtd
+# TODO
+# Frameworks                Foundation AppKit Cocoa GameController Metal MetalKit MetalPerformanceShaders
+
+if windows if mode == debug Libraries msvcrtd
 
 Depends Jolt/          | %_args
 Depends TestFramework/ | %_args
 
-Assert.Platform Windows
+#Assert.Platform Windows
 Platform.*.errormessage
 {
     Samples currently does not support %(_platform). It is a Windows only application.
