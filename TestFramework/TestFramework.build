@@ -1,15 +1,196 @@
 include ../Common.buildvars
 
-Assembly %_FileName
-Type     static_lib
+Assembly              %_FileName
+Type                  static_lib
 
 BuildDirectory        ../Build/$(Assembly)/$ModeStr
 IntermediateDirectory ../Intermediate/$Assembly
 
-Includes . .. ../Build
+Includes              . .. ../Build @(VK_SDK_PATH)/include
+
+SourceDirectories.Exclude:windows Input/Linux Input/MacOS
+SourceDirectories.Exclude:linux   Input/Win Input/MacOS
+SourceDirectories.Exclude:macos   Input/Win Input/Linux
+
+SourceFiles
+[
+    Application/Application.cpp
+    Application/Application.h
+    Application/DebugUI.cpp
+    Application/DebugUI.h
+    Application/EntryPoint.h
+    External/Perlin.cpp
+    External/Perlin.h
+    External/stb_truetype.h
+    Image/BlitSurface.cpp
+    Image/BlitSurface.h
+    Image/LoadBMP.cpp
+    Image/LoadBMP.h
+    Image/LoadTGA.cpp
+    Image/LoadTGA.h
+    Image/Surface.cpp
+    Image/Surface.h
+    Image/ZoomImage.cpp
+    Image/ZoomImage.h
+    Input/Keyboard.h
+    Input/Mouse.h
+    Renderer/DebugRendererImp.cpp
+    Renderer/DebugRendererImp.h
+    Renderer/Font.cpp
+    Renderer/Font.h
+    Renderer/Frustum.h
+    Renderer/PipelineState.h
+    Renderer/PixelShader.h
+    Renderer/Renderer.cpp
+    Renderer/Renderer.h
+    Renderer/RenderInstances.h
+    Renderer/RenderPrimitive.cpp
+    Renderer/RenderPrimitive.h
+    Renderer/Texture.h
+    Renderer/VertexShader.h
+    TestFramework.h
+    UI/UIAnimation.cpp
+    UI/UIAnimation.h
+    UI/UIAnimationSlide.cpp
+    UI/UIAnimationSlide.h
+    UI/UIButton.cpp
+    UI/UIButton.h
+    UI/UICheckBox.cpp
+    UI/UICheckBox.h
+    UI/UIComboBox.cpp
+    UI/UIComboBox.h
+    UI/UIElement.cpp
+    UI/UIElement.h
+    UI/UIEventListener.h
+    UI/UIHorizontalStack.cpp
+    UI/UIHorizontalStack.h
+    UI/UIImage.cpp
+    UI/UIImage.h
+    UI/UIManager.cpp
+    UI/UIManager.h
+    UI/UISlider.cpp
+    UI/UISlider.h
+    UI/UIStaticText.cpp
+    UI/UIStaticText.h
+    UI/UITextButton.cpp
+    UI/UITextButton.h
+    UI/UITexturedQuad.h
+    UI/UIVerticalStack.cpp
+    UI/UIVerticalStack.h
+    Utils/CustomMemoryHook.cpp
+    Utils/CustomMemoryHook.h
+    Utils/AssetStream.h
+    Utils/Log.h
+    Utils/ReadData.cpp
+    Utils/ReadData.h
+    Window/ApplicationWindow.h
+]
+
+if windows
+{
+    # Windows source files
+    SourceFiles
+    [
+        Input/Win/KeyboardWin.cpp
+        Input/Win/KeyboardWin.h
+        Input/Win/MouseWin.cpp
+        Input/Win/MouseWin.h
+        Renderer/DX12/ConstantBufferDX12.cpp
+        Renderer/DX12/ConstantBufferDX12.h
+        Renderer/DX12/CommandQueueDX12.h
+        Renderer/DX12/DescriptorHeapDX12.h
+        Renderer/DX12/FatalErrorIfFailedDX12.cpp
+        Renderer/DX12/FatalErrorIfFailedDX12.h
+        Renderer/DX12/PipelineStateDX12.cpp
+        Renderer/DX12/PipelineStateDX12.h
+        Renderer/DX12/PixelShaderDX12.h
+        Renderer/DX12/RendererDX12.cpp
+        Renderer/DX12/RendererDX12.h
+        Renderer/DX12/RenderInstancesDX12.cpp
+        Renderer/DX12/RenderInstancesDX12.h
+        Renderer/DX12/RenderPrimitiveDX12.cpp
+        Renderer/DX12/RenderPrimitiveDX12.h
+        Renderer/DX12/TextureDX12.cpp
+        Renderer/DX12/TextureDX12.h
+        Renderer/DX12/VertexShaderDX12.h
+        Utils/AssetStream.cpp
+        Utils/Log.cpp
+        Window/ApplicationWindowWin.cpp
+        Window/ApplicationWindowWin.h
+    ]
+}
+
+if linux
+{
+    # Linux source files
+    SourceFiles
+    [
+        Input/Linux/KeyboardLinux.cpp
+        Input/Linux/KeyboardLinux.h
+        Input/Linux/MouseLinux.cpp
+        Input/Linux/MouseLinux.h
+        Utils/AssetStream.cpp
+        Utils/Log.cpp
+        Window/ApplicationWindowLinux.cpp
+        Window/ApplicationWindowLinux.h
+    ]
+}
+
+if macOS
+{
+    # macOS source files
+    SourceFiles
+    [
+        Renderer/MTL/FatalErrorIfFailedMTL.mm
+        Renderer/MTL/FatalErrorIfFailedMTL.h
+        Renderer/MTL/PipelineStateMTL.mm
+        Renderer/MTL/PipelineStateMTL.h
+        Renderer/MTL/PixelShaderMTL.h
+        Renderer/MTL/RendererMTL.mm
+        Renderer/MTL/RendererMTL.h
+        Renderer/MTL/RenderInstancesMTL.mm
+        Renderer/MTL/RenderInstancesMTL.h
+        Renderer/MTL/RenderPrimitiveMTL.mm
+        Renderer/MTL/RenderPrimitiveMTL.h
+        Renderer/MTL/TextureMTL.mm
+        Renderer/MTL/TextureMTL.h
+        Renderer/MTL/VertexShaderMTL.h
+        Input/MacOS/KeyboardMacOS.mm
+        Input/MacOS/KeyboardMacOS.h
+        Input/MacOS/MouseMacOS.mm
+        Input/MacOS/MouseMacOS.h
+        Utils/AssetStream.mm
+        Utils/Log.mm
+        Window/ApplicationWindowMacOS.mm
+        Window/ApplicationWindowMacOS.h
+    ]
+}
+
+# Vulkan source files
+SourceFiles
+[
+    Renderer/VK/BufferVK.h
+    Renderer/VK/ConstantBufferVK.cpp
+    Renderer/VK/ConstantBufferVK.h
+    Renderer/VK/FatalErrorIfFailedVK.cpp
+    Renderer/VK/FatalErrorIfFailedVK.h
+    Renderer/VK/PipelineStateVK.cpp
+    Renderer/VK/PipelineStateVK.h
+    Renderer/VK/PixelShaderVK.h
+    Renderer/VK/RendererVK.cpp
+    Renderer/VK/RendererVK.h
+    Renderer/VK/RenderInstancesVK.cpp
+    Renderer/VK/RenderInstancesVK.h
+    Renderer/VK/RenderPrimitiveVK.cpp
+    Renderer/VK/RenderPrimitiveVK.h
+    Renderer/VK/TextureVK.cpp
+    Renderer/VK/TextureVK.h
+    Renderer/VK/VertexShaderVK.h
+]
+
 
 Assert.Platform Windows
-Platform.Linux.errormessage
+Platform.*.ErrorMessage
 {
     The TestFramework module is a windows only target
 }
