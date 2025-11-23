@@ -1,0 +1,6 @@
+Compiler                  @VULKAN_SDK/bin/glslc
+Compiler.ObjectDirectory  .
+Extension                 .spv
+
+SourceFiles               *.vert *.frag
+

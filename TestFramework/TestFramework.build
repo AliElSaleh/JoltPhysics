@@ -195,12 +195,13 @@ if renderer == vulkan
         Renderer/VK/VertexShaderVK.h
     ]
 
+    Depend ../Assets/Shaders/VK/
+
     Assert.EnvVar VULKAN_SDK
     EnvVar.VULKAN_SDK.ErrorMessage
     {
-        You do not have the Vulkan SDK installed on this machine. Install the latest version by visiting https://vulkan.lunarg.com/sdk/home
+        You do not have the Vulkan SDK installed on this machine.
+        Install the latest version by visiting https://vulkan.lunarg.com/sdk/home
     }
 }
-
-
 
