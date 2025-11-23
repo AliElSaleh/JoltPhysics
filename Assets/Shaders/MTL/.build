@@ -1,0 +1,14 @@
+Assembly                 Shaders
+Extension                .metallib
+
+Compiler                 xcrun
+Compiler.Flags(first)    -sdk macosx metal
+Compiler.CompileFlag     -c
+Compiler.ObjectExtension .air
+
+Linker                   xcrun
+Linker.Flags             -sdk macosx metallib
+
+SourceFiles              *.metal
+
+Assert.Platform Apple
