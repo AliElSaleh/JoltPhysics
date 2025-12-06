@@ -173,6 +173,11 @@ if renderer == vulkan
     Libraries.Public:windows  vulkan-1
     Libraries.Public:unix     vulkan
     Library.Paths.Public      @VULKAN_SDK/lib
+    
+    if mode == debug
+    {
+        Libraries.Public:unix VkLayer_khronos_validation
+    }
 
     if unix
     {

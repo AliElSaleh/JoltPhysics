@@ -27,17 +27,7 @@ Libraries              %_NativeLibs
 Libraries:windows      D3D12 DXGI d3dcompiler dxguid dinput8
 Libraries:linux        X11 Xrandr Xinerama Xcursor Xxf86vm Xext Xrender Xi
 
-Linker.Flags:apple
-[
-    -framework Foundation
-    -framework Cocoa
-    -framework GameController
-    -framework Metal
-    -framework MetalKit
-]
-
-# TODO
-# Frameworks                Foundation Cocoa GameController Metal MetalKit
+Frameworks             Foundation Cocoa GameController Metal MetalKit
 
 if windows if mode == debug Libraries msvcrtd
 
