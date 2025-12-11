@@ -3,10 +3,8 @@ include ../Common.buildvars
 Assembly                %_FileName
 Type                    static_lib
 
-BuildDirectory          ../Build/$(Assembly)/%Mode
-IntermediateDirectory   ../Intermediate/$Assembly
-
 Includes                .. ../Build
+Includes.Public         .. ../Build
 
 Assert.WorkingDirectory .
 Assert.Architecture     x86 x64 arm arm64

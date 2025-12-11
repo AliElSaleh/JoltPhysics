@@ -66,3 +66,6 @@ if clang++
 
 Compiler.Flags $CommonFlags $WarningFlags $ConfigFlags $FpModel $AppleFlags
 Linker.Flags   $CommonLinkerFlags
+
+BuildDirectory        ../Build/$(Assembly)/%Mode
+IntermediateDirectory ../Intermediate/$(Assembly)

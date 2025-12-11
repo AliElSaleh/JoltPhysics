@@ -3,9 +3,6 @@ include ../Common.buildvars
 Assembly %_FileName
 .run     | ..
 
-BuildDirectory        ../Build/$(Assembly)/%Mode
-IntermediateDirectory ../Intermediate/%_FileName
-
 Includes . .. ../TestFramework
 
 DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler

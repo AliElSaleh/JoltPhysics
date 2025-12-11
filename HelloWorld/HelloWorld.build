@@ -1,12 +1,5 @@
 include ../Common.buildvars
 
-Assembly              %_FileName
-.run                  | ..
-
-BuildDirectory        ../Build/$(Assembly)/%Mode
-IntermediateDirectory ../Intermediate/%_FileName
-Includes              . ..
-
-Linker.Subsystem      console
-
 Depends ../Jolt
+
+.run | ..

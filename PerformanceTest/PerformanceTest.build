@@ -2,8 +2,6 @@ include ../Common.buildvars
 
 Assembly              %_FileName
 
-BuildDirectory        ../Build/$(Assembly)/%Mode
-IntermediateDirectory ../Intermediate/$Assembly
 Includes              . ..
 
 Linker.Subsystem console

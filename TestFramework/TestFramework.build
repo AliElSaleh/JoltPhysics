@@ -3,9 +3,6 @@ include ../Common.buildvars
 Assembly              %_FileName
 Type                  static_lib
 
-BuildDirectory        ../Build/$(Assembly)/$ModeStr
-IntermediateDirectory ../Intermediate/$Assembly
-
 Includes              . .. ../Build
 
 if windows option.renderer(dx12 vulkan)

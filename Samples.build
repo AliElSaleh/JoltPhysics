@@ -4,8 +4,8 @@ Assembly %_FileName
 .run | .
 
 SourceDirectory           Samples
-BuildDirectory            Build/Samples/%Mode
-IntermediateDirectory     Intermediate/Samples
+BuildDirectory`           Build/Samples/%Mode
+IntermediateDirectory`    Intermediate/Samples
 
 if windows Linker.Subsystem Windows
 
