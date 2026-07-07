@@ -2,7 +2,7 @@ include ../Common.buildvars
 
 Assembly              %_FileName
 
-Includes              . ..
+Compiler.Includes     . ..
 
 Linker.Subsystem console
 

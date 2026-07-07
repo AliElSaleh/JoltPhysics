@@ -3,7 +3,7 @@ include ../Common.buildvars
 Assembly              %_FileName
 Type                  static_lib
 
-Includes              . .. ../Build
+Compiler.Includes     . .. ../Build
 
 if windows option.renderer(dx12 vulkan)
 if unix    option.renderer(vulkan)
@@ -165,20 +165,20 @@ if macOS
 # Vulkan source files
 if renderer == vulkan
 {
-    Includes                  @VULKAN_SDK/include
-    Defines                   JPH_ENABLE_VULKAN
-    Libraries.Public:windows  vulkan-1
-    Libraries.Public:unix     vulkan
-    Library.Paths.Public      @VULKAN_SDK/lib
+    Compiler.Includes         @VULKAN_SDK/include
+    Compiler.Defines          JPH_ENABLE_VULKAN
+    Libraries.Export:windows  vulkan-1
+    Libraries.Export:unix     vulkan
+    Library.Paths.Export      @VULKAN_SDK/lib
     
     if mode == debug
     {
-        Libraries.Public:unix VkLayer_khronos_validation
+        Libraries.Export:unix VkLayer_khronos_validation
     }
 
     if unix
     {
-        Linker.Flags.Public   -Wl,-rpath,@VULKAN_SDK/lib
+        Linker.Flags.Export   -Wl,-rpath,@VULKAN_SDK/lib
     }
 
     SourceFiles

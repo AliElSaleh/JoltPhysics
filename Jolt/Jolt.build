@@ -1,13 +1,13 @@
 include ../Common.buildvars
 
-Assembly                %_FileName
-Type                    static_lib
+Assembly                 %_FileName
+Type                     static_lib
 
-Includes                .. ../Build
-Includes.Public         .. ../Build
+Compiler.Includes        .. ../Build
+Compiler.Includes.Export .. ../Build
 
-Assert.WorkingDirectory .
-Assert.Architecture     x86 x64 arm arm64
+Assert.WorkingDirectory  .
+Assert.Architecture      x86 x64 arm arm64
 
 if x86   Assert.CPUExtensions sse2
 if arm64 Assert.CPUExtensions neon fp16

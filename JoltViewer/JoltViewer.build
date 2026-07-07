@@ -3,7 +3,7 @@ include ../Common.buildvars
 Assembly %_FileName
 .run     | ..
 
-Includes . .. ../TestFramework
+Compiler.Includes . .. ../TestFramework
 
 DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
 Libraries %_NativeLibs $DxLibraries

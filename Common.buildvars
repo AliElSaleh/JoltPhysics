@@ -3,7 +3,7 @@ option.mode(debug release dist) Select which configuration mode to build Jolt in
 if windows
 {
     Compiler cl
-    Defines WIN32 _WINDOWS
+    Compiler.Defines WIN32 _WINDOWS
 }
 
 if unix
@@ -11,9 +11,9 @@ if unix
     Compiler clang++
 }
 
-if !no_object_stream Defines JPH_OBJECT_STREAM
+if !no_object_stream Compiler.Defines JPH_OBJECT_STREAM
 
-if mode == debug Defines
+if mode == debug Compiler.Defines
 [
     JPH_FLOATING_POINT_EXCEPTIONS_ENABLED
     JPH_PROFILE_ENABLED
@@ -31,8 +31,8 @@ if cl
     if mode == release ConfigFlags /O2 /Oi /Ot /MT /GS- /Gy /Gd
     if mode == dist    ConfigFlags /O2 /Oi /Ot /MT /GS- /Gy /Gd
 
-    if mode == debug   Defines _DEBUG
-    if mode != debug   Defines NDEBUG
+    if mode == debug   Compiler.Defines _DEBUG
+    if mode != debug   Compiler.Defines NDEBUG
 }
 
 if clang++
@@ -49,9 +49,9 @@ if clang++
     if mode == release ConfigFlags -O3 -gcodeview
     if mode == dist    ConfigFlags -O3
 
-    if mode == debug   Defines _DEBUG
-    if mode != debug   Defines NDEBUG
-    Defines _MT
+    if mode == debug   Compiler.Defines _DEBUG
+    if mode != debug   Compiler.Defines NDEBUG
+    Compiler.Defines _MT
     
     if windows
     {

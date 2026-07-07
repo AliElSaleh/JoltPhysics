@@ -21,7 +21,7 @@ if no_object_stream SourceFiles.Exclude
     SkeletonMapperTest.cpp
 ]
 
-Includes               . Build Samples TestFramework
+Compiler.Includes      . Build Samples TestFramework
 
 Libraries              %_NativeLibs
 Libraries:windows      D3D12 DXGI d3dcompiler dxguid dinput8

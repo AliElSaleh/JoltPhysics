@@ -3,7 +3,7 @@ include ../Common.buildvars
 Assembly %_FileName
 .run     | ..
 
-Includes              . ..
+Compiler.Includes     . ..
 
 if windows            Libraries %_NativeLibs
 
