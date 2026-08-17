@@ -1,25 +1,25 @@
-include ../Common.buildvars
+import ../Common.buildvars
 
-Assembly              %_FileName
+Assembly              &FileName
 
 Compiler.Includes     . ..
 
 Linker.Subsystem console
 
 DxLibraries           D3D12 DXGI d3dcompiler dxguid dinput8
-Libraries             %_NativeLibs $DxLibraries
+Libraries             &NativeLibs $DxLibraries
 
-Depends ../Jolt          | %_args
-Depends ../TestFramework | %_args
+Depends ../Jolt          | &args
+Depends ../TestFramework | &args
 
 .run | ..
 
 Assert.Platform Windows
 Platform.*.ErrorMessage
 {
-    %_FileNameExt currently does not support %(_platform). It is a Windows only application.
+    &FileNameExt currently does not support &(platform). It is a Windows only application.
 
-    The targets that can be built on %(_platform) are:
+    The targets that can be built on &(platform) are:
       - UnitTests.build
       - HelloWorld.build
     

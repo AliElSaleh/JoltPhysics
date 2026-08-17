@@ -1,6 +1,6 @@
-include Common.buildvars
+import Common.buildvars
 
-Assembly %_FileName
+Assembly &FileName
 .run | .
 
 SourceDirectory           Samples
@@ -23,7 +23,7 @@ if no_object_stream SourceFiles.Exclude
 
 Compiler.Includes      . Build Samples TestFramework
 
-Libraries              %_NativeLibs
+Libraries              &NativeLibs
 Libraries:windows      D3D12 DXGI d3dcompiler dxguid dinput8
 Libraries:linux        X11 Xrandr Xinerama Xcursor Xxf86vm Xext Xrender Xi
 
@@ -31,6 +31,6 @@ Frameworks             Foundation Cocoa GameController Metal MetalKit
 
 if windows if mode == debug Libraries msvcrtd
 
-Depends TestFramework/ | %_args
-Depends Jolt/          | %_args
+Depends TestFramework/ | &args
+Depends Jolt/          | &args
 

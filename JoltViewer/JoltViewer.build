@@ -1,20 +1,20 @@
-include ../Common.buildvars
+import ../Common.buildvars
 
-Assembly %_FileName
+Assembly &FileName
 .run     | ..
 
 Compiler.Includes . .. ../TestFramework
 
 DxLibraries d3d12 dxguid dinput8 dxgi d3dcompiler
-Libraries %_NativeLibs $DxLibraries
+Libraries &NativeLibs $DxLibraries
 
 Linker.Subsystem console
 
-Depends ../Jolt          | %_args
-Depends ../TestFramework | %_args
+Depends ../Jolt          | &args
+Depends ../TestFramework | &args
 
 Assert.Platform Windows
 Platform.*.errormessage
 {
-    JoltViewer currently does not support %(_platform). It is a Windows only application at this time.
+    JoltViewer currently does not support &(platform). It is a Windows only application at this time.
 }

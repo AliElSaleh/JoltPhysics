@@ -1,10 +1,10 @@
-include ../Common.buildvars
+import ../Common.buildvars
 
-Assembly %_FileName
+Assembly &FileName
 .run     | ..
 
 Compiler.Includes     . ..
 
-if windows            Libraries %_NativeLibs
+if windows            Libraries &NativeLibs
 
-Depends ../Jolt | %_args
+Depends ../Jolt | &args

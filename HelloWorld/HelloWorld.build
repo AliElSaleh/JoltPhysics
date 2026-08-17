@@ -1,4 +1,4 @@
-include ../Common.buildvars
+import ../Common.buildvars
 
 Depends ../Jolt
 

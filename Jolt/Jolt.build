@@ -1,6 +1,6 @@
-include ../Common.buildvars
+import ../Common.buildvars
 
-Assembly                 %_FileName
+Assembly                 &FileName
 Type                     static_lib
 
 Compiler.Includes        .. ../Build
@@ -9,5 +9,5 @@ Compiler.Includes.Export .. ../Build
 Assert.WorkingDirectory  .
 Assert.Architecture      x86 x64 arm arm64
 
-if x86   Assert.CPUExtensions sse2
-if arm64 Assert.CPUExtensions neon fp16
+Assert.CPU.Extensions:x86   sse2
+Assert.CPU.Extensions:arm64 neon fp16

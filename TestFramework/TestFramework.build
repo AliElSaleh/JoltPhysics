@@ -1,6 +1,6 @@
-include ../Common.buildvars
+import ../Common.buildvars
 
-Assembly              %_FileName
+Assembly              &FileName
 Type                  static_lib
 
 Compiler.Includes     . .. ../Build
