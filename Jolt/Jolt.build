@@ -6,6 +6,10 @@ Type                     static_lib
 Compiler.Includes        .. ../Build
 Compiler.Includes.Export .. ../Build
 
+# The compute backend gates Jolt's own public headers, so consumers need it too
+if renderer == dx12   Compiler.Defines(export) JPH_USE_DX12
+if renderer == vulkan Compiler.Defines(export) JPH_USE_VK
+
 Assert.WorkingDirectory  .
 Assert.Architecture      x86 x64 arm arm64
 

@@ -5,9 +5,6 @@ Type                  static_lib
 
 Compiler.Includes     . .. ../Build
 
-if windows option.renderer(dx12 vulkan)
-if unix    option.renderer(vulkan)
-
 SourceFiles
 [
     Application/Application.cpp
@@ -91,24 +88,6 @@ if windows
         Input/Win/KeyboardWin.h
         Input/Win/MouseWin.cpp
         Input/Win/MouseWin.h
-        Renderer/DX12/ConstantBufferDX12.cpp
-        Renderer/DX12/ConstantBufferDX12.h
-        Renderer/DX12/CommandQueueDX12.h
-        Renderer/DX12/DescriptorHeapDX12.h
-        Renderer/DX12/FatalErrorIfFailedDX12.cpp
-        Renderer/DX12/FatalErrorIfFailedDX12.h
-        Renderer/DX12/PipelineStateDX12.cpp
-        Renderer/DX12/PipelineStateDX12.h
-        Renderer/DX12/PixelShaderDX12.h
-        Renderer/DX12/RendererDX12.cpp
-        Renderer/DX12/RendererDX12.h
-        Renderer/DX12/RenderInstancesDX12.cpp
-        Renderer/DX12/RenderInstancesDX12.h
-        Renderer/DX12/RenderPrimitiveDX12.cpp
-        Renderer/DX12/RenderPrimitiveDX12.h
-        Renderer/DX12/TextureDX12.cpp
-        Renderer/DX12/TextureDX12.h
-        Renderer/DX12/VertexShaderDX12.h
         Utils/AssetStream.cpp
         Utils/Log.cpp
         Window/ApplicationWindowWin.cpp
@@ -162,11 +141,39 @@ if macOS
     ]
 }
 
+# DirectX 12 source files
+if renderer == dx12
+{
+    Compiler.Defines(export) JPH_USE_DX12
+
+    SourceFiles
+    [
+        Renderer/DX12/ConstantBufferDX12.cpp
+        Renderer/DX12/ConstantBufferDX12.h
+        Renderer/DX12/CommandQueueDX12.h
+        Renderer/DX12/DescriptorHeapDX12.h
+        Renderer/DX12/FatalErrorIfFailedDX12.cpp
+        Renderer/DX12/FatalErrorIfFailedDX12.h
+        Renderer/DX12/PipelineStateDX12.cpp
+        Renderer/DX12/PipelineStateDX12.h
+        Renderer/DX12/PixelShaderDX12.h
+        Renderer/DX12/RendererDX12.cpp
+        Renderer/DX12/RendererDX12.h
+        Renderer/DX12/RenderInstancesDX12.cpp
+        Renderer/DX12/RenderInstancesDX12.h
+        Renderer/DX12/RenderPrimitiveDX12.cpp
+        Renderer/DX12/RenderPrimitiveDX12.h
+        Renderer/DX12/TextureDX12.cpp
+        Renderer/DX12/TextureDX12.h
+        Renderer/DX12/VertexShaderDX12.h
+    ]
+}
+
 # Vulkan source files
 if renderer == vulkan
 {
     Compiler.Includes         @VULKAN_SDK/include
-    Compiler.Defines          JPH_ENABLE_VULKAN
+    Compiler.Defines(export)  JPH_USE_VK
     Libraries.Export:windows  vulkan-1
     Libraries.Export:unix     vulkan
     Library.Paths.Export      @VULKAN_SDK/lib

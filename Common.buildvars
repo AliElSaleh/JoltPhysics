@@ -1,5 +1,8 @@
 option.mode(debug release dist) Select which configuration mode to build Jolt in
 
+if windows option.renderer(dx12 vulkan) Select which renderer to build
+if unix    option.renderer(vulkan) Select which renderer to build
+
 if windows
 {
     Compiler cl
